@@ -1,10 +1,11 @@
 package com.example;
 
-import com.example.model.PersonToCheck;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//remove::start[]
+//remove::end[]
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
@@ -26,9 +27,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-//remove::start[]
-//remove::end[]
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import com.example.model.PersonToCheck;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.client.WireMock;
 
 /**
  * @author Marcin Grzejszczak
@@ -62,9 +63,13 @@ public class ProducerControllerTests {
 				.content(this.json.write(personToCheck).getJson()))
 				.andExpect(jsonPath("$.status").value("OK"))
 				.andDo(WireMockRestDocs.verify()
-						.jsonPath("$[?(@.age >= 20)]")
-						.contentType(MediaType.valueOf("application/json"))
-						.stub("shouldGrantABeerIfOldEnough"))
+						.wiremock(WireMock.post(WireMock.urlMatching("/check"))
+								.withHeader("Content-Type", WireMock.containing("application/json"))
+								.withRequestBody(WireMock.matchingJsonPath("$[?(@.age >= 20)]"))
+								)						
+//						.jsonPath("$[?(@.age >= 20)]")
+//						.contentType(MediaType.valueOf("application/json"))
+						)
 				.andDo(MockMvcRestDocumentation.document("shouldGrantABeerIfOldEnough",
 						SpringCloudContractRestDocs.dslContract()));
 		//remove::end[]
@@ -79,9 +84,13 @@ public class ProducerControllerTests {
 				.content(this.json.write(personToCheck).getJson()))
 				.andExpect(jsonPath("$.status").value("NOT_OK"))
 				.andDo(WireMockRestDocs.verify()
-						.jsonPath("$[?(@.age < 20)]")
-						.contentType(MediaType.valueOf("application/json"))
-						.stub("shouldRejectABeerIfTooYoung"))
+						.wiremock(WireMock.post(WireMock.urlMatching("/check"))
+								.withHeader("Content-Type", WireMock.containing("application/json"))
+								.withRequestBody(WireMock.matchingJsonPath("$[?(@.age < 20)]"))
+								)	
+//						.jsonPath("$[?(@.age < 20)]")
+//						.contentType(MediaType.valueOf("application/json"))
+						)
 				.andDo(MockMvcRestDocumentation.document("shouldRejectABeerIfTooYoung",
 						SpringCloudContractRestDocs.dslContract()));
 		//remove::end[]

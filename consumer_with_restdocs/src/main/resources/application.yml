@@ -3,7 +3,10 @@ spring:
   # remove::start[]
   cloud.stream.bindings.input-in-0.destination: verifications
   # remove::end[]
-server.port: ${PORT:8081}
+
+beer-api-producer-restdocs:
+  url: http://localhost:8081
+
 logging:
   level:
     org.springframework.cloud: debug

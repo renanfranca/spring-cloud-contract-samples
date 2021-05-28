@@ -14,16 +14,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.5-SNAPSHOT</version>
+		<version>2.3.10.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>11</java.version>
-		<spring-cloud.version>2020.0.3-SNAPSHOT</spring-cloud.version>
-		<spring-cloud-contract.version>3.0.3-SNAPSHOT</spring-cloud-contract.version>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Hoxton.SR11</spring-cloud.version>
+		<spring-cloud-contract.version>2.2.7.RELEASE</spring-cloud-contract.version>
 		<!-- remove::start[] -->
 		<!-- tag::skip_jar[] -->
 		<!-- we don't want the verifier to do a jar for us -->
@@ -109,15 +109,28 @@
 			</plugin>
 
 			<!-- SPRING CLOUD CONTRACT -->
-			<!-- remove::start[] -->
+			<!-- remove::start[] --> 
 			<plugin>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
 				<version>${spring-cloud-contract.version}</version>
 				<extensions>true</extensions>
+		        <executions>
+		          <execution>
+		            <id>default-convert</id>
+		            <phase>none</phase>
+		          </execution>
+		          <execution>
+		            <id>default-generateStubs</id>
+		            <phase>none</phase>
+		          </execution>
+		          <execution>
+		            <id>default-generateTests</id>
+		            <phase>none</phase>
+		          </execution>
+		        </executions>				
 				<configuration>
-					<testFramework>JUNIT5</testFramework>
-					<packageWithBaseClasses>com.example</packageWithBaseClasses>
+					<testFramework>JUNIT5</testFramework> 
 				</configuration>
 			</plugin>
 			<!-- tag::assembly[] -->
