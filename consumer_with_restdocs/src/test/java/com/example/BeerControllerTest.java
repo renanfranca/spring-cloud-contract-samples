@@ -30,11 +30,6 @@ public class BeerControllerTest extends AbstractTest {
 	@Autowired MockMvc mockMvc;
 	@Autowired BeerController beerController;
 
-//	@BeforeEach
-//	public void setupPort() {
-//		this.beerController.port = 8097;
-//	}
-
 	@Test public void should_give_me_a_beer_when_im_old_enough() throws Exception {
 		//remove::start[]
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/beer")

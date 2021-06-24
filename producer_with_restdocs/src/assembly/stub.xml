@@ -30,6 +30,13 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>${project.build.directory}/snippets/contracts</directory>
+			<outputDirectory>META-INF/${project.groupId}/${project.artifactId}/${project.version}/contracts</outputDirectory>
+			<includes>
+				<include>**/*.groovy</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>${basedir}/src/test/resources/contracts</directory>
 			<outputDirectory>META-INF/${project.groupId}/${project.artifactId}/${project.version}/contracts</outputDirectory>
 			<includes>
